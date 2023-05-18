@@ -10,7 +10,7 @@ import HistoryRouter from '../history-route/history-route';
 import { browserHistory } from '../../browser-history';
 import { AppRoute } from '../../const';
 
-export function App(): JSX.Element {
+export default function App(): JSX.Element {
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>

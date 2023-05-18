@@ -3,6 +3,8 @@ import { NameSpace } from '../const';
 import { redirect } from './middlewares/redirect';
 import { createAPI } from '../services/api';
 import { dataProcess } from './data-process/data-process';
+import { userProcess } from './user-process/user-process';
+import { mainProcess } from './main-process/main-process';
 
 const api = createAPI();
 

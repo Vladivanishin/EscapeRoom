@@ -2,12 +2,17 @@ export enum AppRoute {
   Index = '/',
   Quest = '/quest/:id',
   Booking = '/quest/:id/booking',
-  Reservation = '/reservation',
   Login = '/login',
   Logout = '/logout',
   MyQuests = '/my-quests',
   Contacts = '/contacts',
+}
 
+export enum APIRoute {
+  Quest = '/quest',
+  Reservation = '/reservation',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export enum AuthorizationStatus {

@@ -89,3 +89,11 @@ export type UserLoginData = {
   password: string;
 }
 
+export type Token = {
+  token: string;
+}
+
+export type DeleteReservation = {
+  reservationId: string;
+  token: string;
+}
