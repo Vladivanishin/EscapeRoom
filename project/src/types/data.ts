@@ -7,7 +7,7 @@ export type Quest = {
   previewImgWebp: string;
   level: QuestLevel;
   type: QuestType;
-  peopleMinMax: [number];
+  peopleMinMax: [number, number];
 }
 
 export type Quests = Quest[];
@@ -19,7 +19,7 @@ export type QuestInfo = {
   previewImgWebp: string;
   level: QuestLevel;
   type: QuestType;
-  peopleMinMax: [number];
+  peopleMinMax: [number, number];
   description: string;
   coverImg: string;
   coverImgWebp: string;
@@ -64,7 +64,7 @@ export type QuestResponseData = {
   id: string;
   location: {
     address: string;
-    coords: [number];
+    coords: [number, number];
   };
   quest: {
     id: string;
@@ -73,7 +73,7 @@ export type QuestResponseData = {
     previewImgWebp: string;
     level: QuestLevel;
     type: QuestType;
-    peopleMinMax: [number];
+    peopleMinMax: [number, number];
   };
 }
 

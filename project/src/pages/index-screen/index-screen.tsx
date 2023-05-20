@@ -1,11 +1,46 @@
+import { useEffect } from 'react';
 import CardsList from '../../components/cards-list/cards-list';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+// import { getAuthStatus } from '../../store/user-process/selectors';
+import { fetchCheckAuthAction, fetchGetQuestAction } from '../../store/api-actions';
+import { AppHeader, QuestLevel, QuestType } from '../../const';
+import { getQuests } from '../../store/data-process/selectors';
+import { getCurrentQuestComplexity, getCurrentQuestType } from '../../store/main-process/selectors';
+import { Quests } from '../../types/data';
+import { selectQuestComplexity, selectQuestType } from '../../store/main-process/main-process';
 
 export default function IndexScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const quests = useAppSelector(getQuests);
+  const currentSort = useAppSelector(getCurrentQuestType);
+  const currentComplexity = useAppSelector(getCurrentQuestComplexity);
+
+  function isChooseTopic(arr: Quests): Quests {
+    if (currentSort === QuestType.All && currentComplexity === QuestLevel.Any) {
+      return arr;
+    } else if (currentSort === QuestType.All) {
+      return arr.filter((quest) => quest.level === currentComplexity);
+    } else if (currentComplexity === QuestLevel.Any) {
+      return arr.filter((quest) => quest.type === currentSort);
+    } else {
+      return arr.filter((quest) => quest.type === currentSort && quest.level === currentComplexity);
+    }
+  }
+
+  const selectedQuestsType = isChooseTopic(quests);
+
+  useEffect(() => {
+    dispatch(fetchCheckAuthAction());
+    dispatch(fetchGetQuestAction());
+  }, [dispatch]);
+
+  // const authorizationStatus = useAppSelector(getAuthStatus);
+
   return (
     <div className="wrapper">
-      <Header />
+      <Header version={AppHeader.IndexPage} />
       <main className="page-content">
         <div className="container">
           <div className="page-content__title-wrapper">
@@ -19,8 +54,8 @@ export default function IndexScreen(): JSX.Element {
                 <legend className="visually-hidden">Тематика</legend>
                 <ul className="filter__list">
                   <li className="filter__item">
-                    <input type="radio" name="type" id="all" checked />
-                    <label className="filter__label" htmlFor="all">
+                    <input type="radio" name="type" id="all" defaultChecked {...currentSort === QuestType.All && ['checked']} />
+                    <label className="filter__label" htmlFor="all" onClick={() => dispatch(selectQuestType(QuestType.All))}>
                       <svg className="filter__icon" width="26" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-all-quests"></use>
                       </svg><span className="filter__label-text">Все квесты</span>
@@ -28,7 +63,7 @@ export default function IndexScreen(): JSX.Element {
                   </li>
                   <li className="filter__item">
                     <input type="radio" name="type" id="adventure" />
-                    <label className="filter__label" htmlFor="adventure">
+                    <label className="filter__label" htmlFor="adventure" onClick={() => dispatch(selectQuestType(QuestType.Adventures))}>
                       <svg className="filter__icon" width="36" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-adventure"></use>
                       </svg><span className="filter__label-text">Приключения</span>
@@ -36,7 +71,9 @@ export default function IndexScreen(): JSX.Element {
                   </li>
                   <li className="filter__item">
                     <input type="radio" name="type" id="horror" />
-                    <label className="filter__label" htmlFor="horror">
+                    <label className="filter__label" htmlFor="horror" onClick={() =>
+                      dispatch(selectQuestType(QuestType.Horror))}
+                    >
                       <svg className="filter__icon" width="30" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-horror"></use>
                       </svg><span className="filter__label-text">Ужасы</span>
@@ -44,7 +81,7 @@ export default function IndexScreen(): JSX.Element {
                   </li>
                   <li className="filter__item">
                     <input type="radio" name="type" id="mystic" />
-                    <label className="filter__label" htmlFor="mystic">
+                    <label className="filter__label" htmlFor="mystic" onClick={() => dispatch(selectQuestType(QuestType.Mystic))}>
                       <svg className="filter__icon" width="30" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-mystic"></use>
                       </svg><span className="filter__label-text">Мистика</span>
@@ -52,7 +89,7 @@ export default function IndexScreen(): JSX.Element {
                   </li>
                   <li className="filter__item">
                     <input type="radio" name="type" id="detective" />
-                    <label className="filter__label" htmlFor="detective">
+                    <label className="filter__label" htmlFor="detective" onClick={() => dispatch(selectQuestType(QuestType.Detectiv))}>
                       <svg className="filter__icon" width="40" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-detective"></use>
                       </svg><span className="filter__label-text">Детектив</span>
@@ -60,7 +97,7 @@ export default function IndexScreen(): JSX.Element {
                   </li>
                   <li className="filter__item">
                     <input type="radio" name="type" id="sciFi" />
-                    <label className="filter__label" htmlFor="sciFi">
+                    <label className="filter__label" htmlFor="sciFi" onClick={() => dispatch(selectQuestType(QuestType.Scifi))}>
                       <svg className="filter__icon" width="28" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-sci-fi"></use>
                       </svg><span className="filter__label-text">Sci-fi</span>
@@ -72,23 +109,23 @@ export default function IndexScreen(): JSX.Element {
                 <legend className="visually-hidden">Сложность</legend>
                 <ul className="filter__list">
                   <li className="filter__item">
-                    <input type="radio" name="level" id="any" checked />
-                    <label className="filter__label" htmlFor="any"><span className="filter__label-text">Любой</span>
+                    <input type="radio" name="level" id="any" defaultChecked />
+                    <label className="filter__label" htmlFor="any" onClick={() => dispatch(selectQuestComplexity(QuestLevel.Any))}><span className="filter__label-text">Любой</span>
                     </label>
                   </li>
                   <li className="filter__item">
                     <input type="radio" name="level" id="easy" />
-                    <label className="filter__label" htmlFor="easy"><span className="filter__label-text">Лёгкий</span>
+                    <label className="filter__label" htmlFor="easy" onClick={() => dispatch(selectQuestComplexity(QuestLevel.Easy))}><span className="filter__label-text">Лёгкий</span>
                     </label>
                   </li>
                   <li className="filter__item">
                     <input type="radio" name="level" id="middle" />
-                    <label className="filter__label" htmlFor="middle"><span className="filter__label-text">Средний</span>
+                    <label className="filter__label" htmlFor="middle" onClick={() => dispatch(selectQuestComplexity(QuestLevel.Medium))}><span className="filter__label-text">Средний</span>
                     </label>
                   </li>
                   <li className="filter__item">
                     <input type="radio" name="level" id="hard" />
-                    <label className="filter__label" htmlFor="hard"><span className="filter__label-text">Сложный</span>
+                    <label className="filter__label" htmlFor="hard" onClick={() => dispatch(selectQuestComplexity(QuestLevel.Hard))}><span className="filter__label-text">Сложный</span>
                     </label>
                   </li>
                 </ul>
@@ -96,7 +133,7 @@ export default function IndexScreen(): JSX.Element {
             </form>
           </div>
           <h2 className="title visually-hidden">Выберите квест</h2>
-          <CardsList />
+          <CardsList quests={selectedQuestsType} />
         </div>
       </main>
       <Footer />

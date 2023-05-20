@@ -22,8 +22,8 @@ export const fetchGetQuestAction = createAsyncThunk<
   ThunkConfig
 >('fetchGetQuest', async (_arg, { dispatch, extra: api }) => {
   try {
-    const { data: quest } = await api.get<Quests>(APIRoute.Quest);
-    return quest;
+    const { data: quests } = await api.get<Quests>(APIRoute.Quest);
+    return quests;
   } catch (error) {
     toast('Массив объектов с информацией о квестах не получен!');
     throw error;

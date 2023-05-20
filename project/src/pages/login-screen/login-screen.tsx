@@ -1,28 +1,44 @@
+import { FormEvent, useRef } from 'react';
+import Header from '../../components/header/header';
+import { AppHeader, AppRoute, AuthorizationStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getAuthStatus } from '../../store/user-process/selectors';
+import { Navigate } from 'react-router-dom';
+import { UserLoginData } from '../../types/data';
+import { fetchLoginAction } from '../../store/api-actions';
+
 export default function LoginScreen(): JSX.Element {
+  const loginRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector(getAuthStatus);
+
+  if (authStatus === AuthorizationStatus.Unknown) {
+    if (localStorage.getItem.length) {
+      return <Navigate to={AppRoute.Index} />;
+    }
+  }
+  if (authStatus === AuthorizationStatus.Auth) {
+    return <Navigate to={AppRoute.Index} />;
+  }
+
+  const onSubmit = (authData: UserLoginData) => {
+    dispatch(fetchLoginAction(authData));
+  };
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if (loginRef.current !== null && passwordRef.current !== null) {
+      onSubmit({
+        email: loginRef.current.value,
+        password: passwordRef.current.value,
+      });
+    }
+  };
+
   return (
     <div className="wrapper">
-      <header className="header">
-        <div className="container container--size-l">
-          <a className="logo header__logo" href="index.html" aria-label="Перейти на Главную">
-            <svg width="134" height="52" aria-hidden="true">
-              <use xlinkHref="#logo"></use>
-            </svg>
-          </a>
-          <nav className="main-nav header__main-nav">
-            <ul className="main-nav__list">
-              <li className="main-nav__item">
-                <a className="link not-disabled active" href="index.html">Квесты</a>
-              </li>
-              <li className="main-nav__item">
-                <a className="link" href="contacts.html">Контакты</a>
-              </li>
-            </ul>
-          </nav>
-          <div className="header__side-nav">
-            <a className="link header__side-item header__phone-link" href="tel:88003335599">8 (000) 111-11-11</a>
-          </div>
-        </div>
-      </header>
+      <Header version={AppHeader.LoginPage} />
       <main className="decorated-page login">
         <div className="decorated-page__decor" aria-hidden="true">
           <picture>
@@ -31,17 +47,19 @@ export default function LoginScreen(): JSX.Element {
         </div>
         <div className="container container--size-l">
           <div className="login__form">
-            <form className="login-form" action="https://echo.htmlacademy.ru/" method="post">
+            <form className="login-form" action="#" method="post" onSubmit={handleSubmit}>
               <div className="login-form__inner-wrapper">
                 <h1 className="title title--size-s login-form__title">Вход</h1>
                 <div className="login-form__inputs">
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="email">E&nbsp;&ndash;&nbsp;mail</label>
-                    <input type="email" id="email" name="email" placeholder="Адрес электронной почты" required />
+                    <input type="email" id="email" name="email" ref={loginRef} placeholder="Адрес электронной почты" required />
                   </div>
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="password">Пароль</label>
-                    <input type="password" id="password" name="password" placeholder="Пароль" required />
+                    <input type="password" id="password" name="password" ref={passwordRef} placeholder="Пароль" title="Введите минимум 1 латинскую букву и 1 цифру"
+                      pattern="^(?=.*[a-zA-Z])(?=.*\d)[^\s].+" required
+                    />
                   </div>
                 </div>
                 <button className="btn btn--accent btn--general login-form__submit" type="submit">Войти</button>
