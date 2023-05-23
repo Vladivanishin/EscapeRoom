@@ -1,11 +1,18 @@
 import { Navigate } from 'react-router-dom';
 import Header from '../../components/header/header';
 import { AppHeader, AppRoute, AuthorizationStatus } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthStatus } from '../../store/user-process/selectors';
+import { useEffect } from 'react';
+import { fetchGetReservationAction } from '../../store/api-actions';
 
 export default function MyQuestsScreen(): JSX.Element {
   const authStatus = useAppSelector(getAuthStatus);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchGetReservationAction());
+  }, [dispatch]);
 
   if (authStatus !== AuthorizationStatus.Auth) {
     return <Navigate to={AppRoute.Login} />;
@@ -13,7 +20,7 @@ export default function MyQuestsScreen(): JSX.Element {
 
   return (
     <div className="wrapper">
-      <Header version={AppHeader.QuestPage} />
+      <Header version={AppHeader.MyQuests} />
       <main className="page-content decorated-page">
         <div className="decorated-page__decor" aria-hidden="true">
           <picture>

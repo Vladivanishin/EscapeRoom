@@ -1,7 +1,8 @@
 import { Link, generatePath } from 'react-router-dom';
 import { Quest } from '../../types/data';
 import { AppRoute } from '../../const';
-// import { useAppDispatch } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
+import { selectQuest } from '../../store/main-process/main-process';
 // import { selectQuest } from '../../store/main-process/main-process';
 
 type CardProps = {
@@ -9,7 +10,7 @@ type CardProps = {
 }
 
 export default function Card({ quest }: CardProps): JSX.Element {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <div className="quest-card">
@@ -19,7 +20,7 @@ export default function Card({ quest }: CardProps): JSX.Element {
         </picture>
       </div>
       <div className="quest-card__content">
-        <div className="quest-card__info-wrapper"><Link className="quest-card__link" to={generatePath(AppRoute.Quest, { id: `${quest.id}` })}>{quest.title}</Link>
+        <div className="quest-card__info-wrapper"><Link className="quest-card__link" to={generatePath(AppRoute.Quest, { id: `${quest.id}` })} onClick={() => dispatch(selectQuest(quest.id))}>{quest.title}</Link>
         </div>
         <ul className="tags quest-card__tags">
           <li className="tags__item">

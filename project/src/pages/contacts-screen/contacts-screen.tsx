@@ -1,5 +1,6 @@
+import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import Map from '../../components/map/map';
+import ContactMap from '../../components/map/contact-map';
 import { AppHeader } from '../../const';
 
 export default function ContactsScreen(): JSX.Element {
@@ -47,41 +48,15 @@ export default function ContactsScreen(): JSX.Element {
             <div className="contacts__map">
               <div className="map">
                 <div className="map__container">
-                  <Map />
+                  {/* <Map /> */}
+                  <ContactMap />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </main>
-      <footer className="footer">
-        <div className="container container--size-l">
-          <div className="socials">
-            <ul className="socials__list">
-              <li className="socials__item">
-                <a className="socials__link" href="#" aria-label="Skype" target="_blank" rel="nofollow noopener noreferrer">
-                  <svg className="socials__icon socials__icon--default" width="28" height="28" aria-hidden="true">
-                    <use xlinkHref="#icon-skype-default"></use>
-                  </svg>
-                  <svg className="socials__icon socials__icon--interactive" width="28" height="28" aria-hidden="true">
-                    <use xlinkHref="#icon-skype-interactive"></use>
-                  </svg>
-                </a>
-              </li>
-              <li className="socials__item">
-                <a className="socials__link" href="#" aria-label="ВКонтакте" target="_blank" rel="nofollow noopener noreferrer">
-                  <svg className="socials__icon socials__icon--default" width="28" height="28" aria-hidden="true">
-                    <use xlinkHref="#icon-vk-default"></use>
-                  </svg>
-                  <svg className="socials__icon socials__icon--interactive" width="28" height="28" aria-hidden="true">
-                    <use xlinkHref="#icon-vk-interactive"></use>
-                  </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

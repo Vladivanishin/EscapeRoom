@@ -1,19 +1,22 @@
 import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../types/state';
-import { Quests, UserAuthData, UserLoginData } from '../types/data';
+import { BookingQuests, QuestBookingData, QuestInfo, Quests, UserAuthData, UserLoginData } from '../types/data';
 import { APIRoute } from '../const';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
-import { QuestInfo } from '../types/data';
-import { BookingQuest } from '../types/data';
 import { QuestResponseData } from '../types/data';
 import { UserBookings } from '../types/data';
 import { dropToken, saveToken } from '../services/token';
+import { notify } from '../utils';
 
 type ThunkConfig = {
   state: State;
   dispatch: AppDispatch;
   extra: AxiosInstance;
+};
+
+export type BookingPostData = {
+  questId: string;
+  questData: QuestBookingData;
 };
 
 export const fetchGetQuestAction = createAsyncThunk<
@@ -25,7 +28,7 @@ export const fetchGetQuestAction = createAsyncThunk<
     const { data: quests } = await api.get<Quests>(APIRoute.Quest);
     return quests;
   } catch (error) {
-    toast('Массив объектов с информацией о квестах не получен!');
+    notify('Массив объектов с информацией о квестах не получен!');
     throw error;
   }
 });
@@ -34,54 +37,54 @@ export const fetchGetQuestInfoAction = createAsyncThunk<
   QuestInfo,
   string,
   ThunkConfig
->('fetchGetQuest', async (questId, { dispatch, extra: api }) => {
+>('fetchGetQuestInfo', async (questId, { dispatch, extra: api }) => {
   try {
-    const { data: quest } = await api.get<QuestInfo>(`${APIRoute.Quest}/${questId}`);
-    return quest;
+    const { data: questInfo } = await api.get<QuestInfo>(`${APIRoute.Quest}/${questId}`);
+    return questInfo;
   } catch (error) {
-    toast('Объект с информацией о квесте не получен!');
+    notify('Объект с информацией о квесте не получен!');
     throw error;
   }
 });
 
 export const fetchGetQuestBookingAction = createAsyncThunk<
-  BookingQuest,
+  BookingQuests,
   string,
   ThunkConfig
->('fetchGetQuest', async (questId, { dispatch, extra: api }) => {
+>('fetchGetQuestBooking', async (questId, { dispatch, extra: api }) => {
   try {
-    const { data: quest } = await api.get<BookingQuest>(`${APIRoute.Quest}/${questId}/booking`);
+    const { data: quest } = await api.get<BookingQuests>(`${APIRoute.Quest}/${questId}/booking`);
     return quest;
   } catch (error) {
-    toast('Объект с информацией о бронировании квеста не получен!');
+    notify('Объект с информацией о бронировании квестов не получен!');
     throw error;
   }
 });
 
 export const fetchPostQuestBookingAction = createAsyncThunk<
   QuestResponseData,
-  string,
+  BookingPostData,
   ThunkConfig
->('fetchGetQuest', async (questId, { dispatch, extra: api }) => {
+>('fetchQuestPost', async ({ questId, questData }, { dispatch, extra: api }) => {
   try {
-    const { data: quest } = await api.post<QuestResponseData>(`${APIRoute.Quest}/${questId}/booking`);
+    const { data: quest } = await api.post<QuestResponseData>(`${APIRoute.Quest}/${questId}/booking`, { questData });
     return quest;
   } catch (error) {
-    toast('Объект, описывающий данные по бронированию квеста не отправлен!');
+    notify('Объект, описывающий данные по бронированию квеста не отправлен!');
     throw error;
   }
 });
 
 export const fetchGetReservationAction = createAsyncThunk<
   UserBookings,
-  string,
+  undefined,
   ThunkConfig
->('fetchGetReservation', async (token, { dispatch, extra: api }) => {
+>('fetchGetReservation', async (_arg, { dispatch, extra: api }) => {
   try {
     const { data } = await api.get<UserBookings>(APIRoute.Reservation);
     return data;
   } catch (error) {
-    toast('Массив объектов с описанием бронирований пользователя не получен!');
+    notify('Массив объектов с описанием бронирований пользователя не получен!');
     throw error;
   }
 });
@@ -94,7 +97,7 @@ export const fetchDeleteReservationAction = createAsyncThunk<
   try {
     await api.delete(`${APIRoute.Reservation}/${reservationId}`);
   } catch (error) {
-    toast('Удаление бронирования не выполнено!');
+    notify('Удаление бронирования не выполнено!');
     throw error;
   }
 });
@@ -108,7 +111,7 @@ export const fetchCheckAuthAction = createAsyncThunk<
     const { data } = await api.get<UserAuthData>(APIRoute.Login);
     return data;
   } catch (error) {
-    toast('Ошибка в проверке авторизации');
+    notify('Ошибка в проверке авторизации');
     throw error;
   }
 });
@@ -124,7 +127,7 @@ export const fetchLoginAction = createAsyncThunk<UserAuthData, UserLoginData, Th
       saveToken(data.token);
       return data;
     } catch (error) {
-      toast('Ошибка в логине или пароле');
+      notify('Ошибка в логине или пароле');
       throw error;
     }
   }

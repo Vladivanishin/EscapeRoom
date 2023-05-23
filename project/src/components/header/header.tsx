@@ -23,14 +23,14 @@ export default function Header({ version }: HeaderProps): JSX.Element {
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
             <li className="main-nav__item">
-              <Link className={`link ${version === AppHeader.QuestPage ? 'active not-disabled' : ''}`} to={AppRoute.MyQuests}>Квесты</Link>
+              <Link className={`link ${version === AppHeader.IndexPage ? 'active not-disabled' : ''}`} to={AppRoute.Index}>Квесты</Link>
             </li>
             <li className="main-nav__item">
               <Link className={`link ${version === AppHeader.ContactsPage ? 'active' : ''}`} to={AppRoute.Contacts}>Контакты</Link>
             </li>
             {authStatus === AuthorizationStatus.Auth && (
               <li className="main-nav__item">
-                <Link className={`link ${version === AppHeader.BookingPage ? 'active' : ''}`} to={AppRoute.Booking}>Мои бронирования</Link>
+                <Link className={`link ${version === AppHeader.MyQuests ? 'active' : ''}`} to={AppRoute.MyQuests}>Мои бронирования</Link>
               </li>
             )}
           </ul>

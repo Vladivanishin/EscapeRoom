@@ -1,38 +1,70 @@
+import { useEffect } from 'react';
+import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { AppHeader, AppRoute, AuthorizationStatus } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchGetQuestBookingAction, fetchGetQuestInfoAction } from '../../store/api-actions';
+import { getBookingQuests, getQuest } from '../../store/data-process/selectors';
 import { getAuthStatus } from '../../store/user-process/selectors';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+import LoadingScreen from '../loading-screen/loading-screen';
+import BookingMap from '../../components/map/booking-map';
 
 export default function BookingScreen(): JSX.Element {
   const authStatus = useAppSelector(getAuthStatus);
+  const dispatch = useAppDispatch();
+  const bookingQuests = useAppSelector(getBookingQuests);
+  const currentQuest = useAppSelector(getQuest);
+  // const currentMapPlace = bookingQuests[0];
+  // const bookingQuest = bookingQuests[0];
+  // const questId = currentQuest?.id;
+  const questId = useParams().id;
+  const id = String(questId);
+
+  useEffect(() => {
+    if (bookingQuests.length !== 0) {
+      return;
+    }
+    dispatch(fetchGetQuestInfoAction(id));
+    dispatch(fetchGetQuestBookingAction(id));
+  }, [dispatch]);
+
+  if (!id || !bookingQuests.length) {
+    return <LoadingScreen />;
+  }
+
+  if (currentQuest === null) {
+    return <NotFoundScreen />;
+  }
 
   if (authStatus !== AuthorizationStatus.Auth) {
     return <Navigate to={AppRoute.Login} />;
   }
 
-  // const bookingQuests = useAppSelector(get)
   return (
     <div className="wrapper">
       <Header version={AppHeader.BookingPage} />
       <main className="page-content decorated-page">
         <div className="decorated-page__decor" aria-hidden="true">
           <picture>
-            <source type="image/webp" srcSet="img/content/maniac/maniac-bg-size-m.webp, img/content/maniac/maniac-bg-size-m@2x.webp 2x" /><img src="img/content/maniac/maniac-bg-size-m.jpg" srcSet="img/content/maniac/maniac-bg-size-m@2x.jpg 2x" width="1366" height="1959" alt="" />
+            <source type="image/webp" srcSet={`${currentQuest.coverImgWebp}, ${currentQuest.coverImgWebp} x2`} /><img src={currentQuest.coverImg} srcSet={`${currentQuest.coverImg} x2`} width="1366" height="1959" alt={currentQuest.title} />
           </picture>
         </div>
         <div className="container container--size-s">
           <div className="page-content__title-wrapper">
             <h1 className="subtitle subtitle--size-l page-content__subtitle">Бронирование квеста
             </h1>
-            <p className="title title--size-m title--uppercase page-content__title">Маньяк</p>
+            <p className="title title--size-m title--uppercase page-content__title">{currentQuest.title}</p>
           </div>
           <div className="page-content__item">
             <div className="booking-map">
               <div className="map">
-                <div className="map__container"></div>
+                <div className="map__container">
+                  <BookingMap />
+                </div>
               </div>
-              <p className="booking-map__address">Вы&nbsp;выбрали: наб. реки Карповки&nbsp;5, лит&nbsp;П, м. Петроградская</p>
+              <p className="booking-map__address">Вы&nbsp;выбрали: {bookingQuests[0].location.address}</p>
             </div>
           </div>
           <form className="booking-form" action="https://echo.htmlacademy.ru/" method="post">
@@ -118,34 +150,7 @@ export default function BookingScreen(): JSX.Element {
           </form>
         </div>
       </main>
-      <footer className="footer">
-        <div className="container container--size-l">
-          <div className="socials">
-            <ul className="socials__list">
-              <li className="socials__item">
-                <a className="socials__link" href="#" aria-label="Skype" target="_blank" rel="nofollow noopener noreferrer">
-                  <svg className="socials__icon socials__icon--default" width="28" height="28" aria-hidden="true">
-                    <use xlinkHref="#icon-skype-default"></use>
-                  </svg>
-                  <svg className="socials__icon socials__icon--interactive" width="28" height="28" aria-hidden="true">
-                    <use xlinkHref="#icon-skype-interactive"></use>
-                  </svg>
-                </a>
-              </li>
-              <li className="socials__item">
-                <a className="socials__link" href="#" aria-label="ВКонтакте" target="_blank" rel="nofollow noopener noreferrer">
-                  <svg className="socials__icon socials__icon--default" width="28" height="28" aria-hidden="true">
-                    <use xlinkHref="#icon-vk-default"></use>
-                  </svg>
-                  <svg className="socials__icon socials__icon--interactive" width="28" height="28" aria-hidden="true">
-                    <use xlinkHref="#icon-vk-interactive"></use>
-                  </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

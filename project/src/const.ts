@@ -1,3 +1,6 @@
+import { Icon } from 'leaflet';
+export const MAP_ZOOM = 13;
+
 export enum AppRoute {
   Index = '/',
   Quest = '/quest/:id',
@@ -13,6 +16,7 @@ export enum APIRoute {
   Reservation = '/reservation',
   Login = '/login',
   Logout = '/logout',
+  Booking = '/quest/:id/booking',
 }
 
 export enum AuthorizationStatus {
@@ -43,13 +47,6 @@ export enum QuestType {
   Scifi = 'sci-fi'
 }
 
-// export enum QuestComplexity {
-//   Any = 'any',
-//   Easy = 'easy',
-//   Middle = 'middle',
-//   Hard = 'hard',
-// }
-
 export enum QuestDate {
   Today = 'today',
   Tomorrow = 'tomorrow',
@@ -60,5 +57,28 @@ export enum AppHeader {
   ContactsPage = 'contacts-page',
   BookingPage = 'booking-page',
   LoginPage = 'login-page',
-  IndexPage = 'index-page'
+  IndexPage = 'index-page',
+  MyQuests = 'my-quest-page',
+}
+
+export const DEFAULT_COORDINATE = {
+  latitude: 59.968322,
+  longitude: 30.317359,
+};
+
+export const defaultCustomIcon = new Icon({
+  iconUrl: '../public/img/svg/pin-default.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+export const currentCustomIcon = new Icon({
+  iconUrl: '../public/img/svg/pin-active.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+export enum DateSlot {
+  Today = 'today',
+  Tomorrow = 'tomorrow'
 }

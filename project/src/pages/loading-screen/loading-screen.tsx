@@ -8,6 +8,6 @@ export default function LoadingScreen(): JSX.Element {
         width='200'
         color="#f2890f"
       />
-    </div>
+    </div >
   );
 }

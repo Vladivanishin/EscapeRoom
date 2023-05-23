@@ -26,11 +26,11 @@ export type QuestInfo = {
 }
 
 export type BookingQuest =
-  [{
+  {
     id: string;
     location: {
       address: string;
-      coords: [number];
+      coords: [number, number];
     };
     slots: {
       today: [{
@@ -42,7 +42,9 @@ export type BookingQuest =
         isAvailable: boolean;
       }];
     };
-  }]
+  }
+
+export type BookingQuests = BookingQuest[];
 
 export type QuestBookingData = {
   date: QuestDate;
@@ -96,4 +98,20 @@ export type Token = {
 export type DeleteReservation = {
   reservationId: string;
   token: string;
+}
+
+export type QuestCoords = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+}
+
+export type SlotDay = {
+  time: string;
+  isAvailable: boolean;
+}
+
+export type Slots = {
+  today: SlotDay[];
+  tommorrow: SlotDay[];
 }

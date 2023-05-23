@@ -32,9 +32,12 @@ export default function IndexScreen(): JSX.Element {
   const selectedQuestsType = isChooseTopic(quests);
 
   useEffect(() => {
+    if (quests.length) {
+      return;
+    }
     dispatch(fetchCheckAuthAction());
     dispatch(fetchGetQuestAction());
-  }, [dispatch]);
+  }, [dispatch, quests]);
 
   // const authorizationStatus = useAppSelector(getAuthStatus);
 
@@ -54,7 +57,7 @@ export default function IndexScreen(): JSX.Element {
                 <legend className="visually-hidden">Тематика</legend>
                 <ul className="filter__list">
                   <li className="filter__item">
-                    <input type="radio" name="type" id="all" defaultChecked {...currentSort === QuestType.All && ['checked']} />
+                    <input type="radio" name="type" id="all" defaultChecked />
                     <label className="filter__label" htmlFor="all" onClick={() => dispatch(selectQuestType(QuestType.All))}>
                       <svg className="filter__icon" width="26" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-all-quests"></use>

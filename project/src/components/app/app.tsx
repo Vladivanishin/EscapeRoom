@@ -9,8 +9,17 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import HistoryRouter from '../history-route/history-route';
 import { browserHistory } from '../../browser-history';
 import { AppRoute } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { getLoadingStatus } from '../../store/data-process/selectors';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 export default function App(): JSX.Element {
+  const isLoadingStatus = useAppSelector(getLoadingStatus);
+
+  if (isLoadingStatus) {
+    return <LoadingScreen />;
+  }
+
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
