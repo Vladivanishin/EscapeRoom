@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
-import { BookingQuest, BookingQuests, QuestInfo, Quests } from '../../types/data';
-import { fetchGetQuestAction, fetchGetQuestBookingAction, fetchGetQuestInfoAction } from '../api-actions';
+import { BookingQuest, BookingQuests, QuestInfo, Quests, UserBookings } from '../../types/data';
+import { fetchDeleteReservationAction, fetchGetQuestAction, fetchGetQuestBookingAction, fetchGetQuestInfoAction, fetchGetReservationAction } from '../api-actions';
 
 type DataProcess = {
   quests: Quests;
@@ -9,6 +9,7 @@ type DataProcess = {
   currentMapPlace: BookingQuest | null;
   bookingQuests: BookingQuests;
   isLoading: boolean;
+  reservationQuests: UserBookings;
 }
 
 const initialState: DataProcess = {
@@ -17,6 +18,7 @@ const initialState: DataProcess = {
   currentMapPlace: null,
   bookingQuests: [],
   isLoading: false,
+  reservationQuests: [],
 };
 
 export const dataProcess = createSlice({
@@ -49,7 +51,17 @@ export const dataProcess = createSlice({
       .addCase(fetchGetQuestBookingAction.fulfilled, (state, action) => {
         state.bookingQuests = action.payload;
         state.isLoading = false;
+      })
+      .addCase(fetchGetReservationAction.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchGetReservationAction.fulfilled, (state, action) => {
+        state.reservationQuests = action.payload;
+        state.isLoading = false;
       });
+      // .addCase(fetchDeleteReservationAction.fulfilled, (state, action) => {
+      //   state.reservationQuests = state.reservationQuests.splice(action.payload.id);
+      // });
   }
 });
 

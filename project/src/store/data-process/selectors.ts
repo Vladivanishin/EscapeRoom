@@ -1,5 +1,5 @@
 import { NameSpace } from '../../const';
-import { Quests, BookingQuests, QuestInfo, BookingQuest } from '../../types/data';
+import { Quests, BookingQuests, QuestInfo, BookingQuest, UserBookings } from '../../types/data';
 import { State } from '../../types/state';
 
 export const getQuests = (state: State): Quests =>
@@ -16,4 +16,7 @@ export const getLoadingStatus = (state: State): boolean =>
 
 export const getCurrentMapPlace = (state: State): BookingQuest | null =>
   state[NameSpace.Data].currentMapPlace;
+
+export const getReservationQuests = (state: State): UserBookings =>
+  state[NameSpace.Data].reservationQuests;
 

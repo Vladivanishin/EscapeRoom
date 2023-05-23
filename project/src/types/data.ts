@@ -113,5 +113,29 @@ export type SlotDay = {
 
 export type Slots = {
   today: SlotDay[];
-  tommorrow: SlotDay[];
+  tomorrow: SlotDay[];
 }
+
+export type BookingFormFields = {
+  name: string;
+  tel: string;
+  person: string;
+  children: boolean;
+};
+
+
+export type BookingData = {
+  date: QuestDate;
+  time: string;
+  contactPerson: string;
+  phone: string;
+  withChildren: boolean;
+  peopleCount: number;
+  placeId: string;
+};
+
+export type BookingPostData = {
+  questId: string;
+  bookingData: BookingData;
+};
+

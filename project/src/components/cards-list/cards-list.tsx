@@ -1,5 +1,6 @@
 import { Quests } from '../../types/data';
-import Card from '../card/cars';
+import Card from '../card/card';
+
 
 type CardsListProps = {
   quests: Quests;

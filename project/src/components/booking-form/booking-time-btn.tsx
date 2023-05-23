@@ -1,11 +1,11 @@
-import { DateSlot } from '../../const';
+import { QuestDate } from '../../const';
 import { SlotDay } from '../../types/data';
 import { formatTime } from '../../utils';
 
 type BookingTimeBtnProps = {
-  day: DateSlot;
+  day: QuestDate;
   slot: SlotDay;
-  onDateChange: (date: DateSlot, time: string) => void;
+  onDateChange: (date: QuestDate, time: string) => void;
 }
 
 export default function BookingTimeBtn({ day, slot, onDateChange }: BookingTimeBtnProps): JSX.Element {

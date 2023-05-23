@@ -1,12 +1,13 @@
 import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../types/state';
-import { BookingQuests, QuestBookingData, QuestInfo, Quests, UserAuthData, UserLoginData } from '../types/data';
-import { APIRoute } from '../const';
+import { BookingData, BookingQuests, QuestBookingData, QuestInfo, Quests, UserAuthData, UserLoginData } from '../types/data';
+import { APIRoute, AppRoute } from '../const';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { QuestResponseData } from '../types/data';
 import { UserBookings } from '../types/data';
 import { dropToken, saveToken } from '../services/token';
 import { notify } from '../utils';
+import { redirectToRoute } from './action';
+import { generatePath } from 'react-router-dom';
 
 type ThunkConfig = {
   state: State;
@@ -62,18 +63,21 @@ export const fetchGetQuestBookingAction = createAsyncThunk<
 });
 
 export const fetchPostQuestBookingAction = createAsyncThunk<
-  QuestResponseData,
-  BookingPostData,
+  BookingData,
+  BookingPostData & { onSuccess: () => void },
   ThunkConfig
->('fetchQuestPost', async ({ questId, questData }, { dispatch, extra: api }) => {
-  try {
-    const { data: quest } = await api.post<QuestResponseData>(`${APIRoute.Quest}/${questId}/booking`, { questData });
-    return quest;
-  } catch (error) {
-    notify('Объект, описывающий данные по бронированию квеста не отправлен!');
-    throw error;
-  }
-});
+    >('fetchQuestPost', async ({ questId, questData, onSuccess }, { dispatch, extra: api }) => {
+      try {
+        const { data: quest } = await api.post<BookingData>(generatePath(APIRoute.Booking, { id: questId.toString() }), questData);
+        notify('Квест забронирован!');
+        onSuccess();
+        dispatch(redirectToRoute(AppRoute.MyQuests));
+        return quest;
+      } catch (error) {
+        notify('Объект, описывающий данные по бронированию квеста не отправлен!');
+        throw error;
+      }
+    });
 
 export const fetchGetReservationAction = createAsyncThunk<
   UserBookings,
@@ -96,6 +100,7 @@ export const fetchDeleteReservationAction = createAsyncThunk<
 >('fetchDeleteReservation', async (reservationId, { dispatch, extra: api }) => {
   try {
     await api.delete(`${APIRoute.Reservation}/${reservationId}`);
+    notify('Отель удален!');
   } catch (error) {
     notify('Удаление бронирования не выполнено!');
     throw error;

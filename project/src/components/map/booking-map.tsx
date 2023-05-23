@@ -37,7 +37,7 @@ export default function BookingMap(): JSX.Element {
         });
 
         marker.setIcon(
-          currentQuest && questPlace.location.address === questPlace.location.address
+          currentQuest && questPlace.location.address === currentQuest.location.address
             ? currentCustomIcon
             : defaultCustomIcon
         ).on('click', () => handleMarkerClick(questPlace))

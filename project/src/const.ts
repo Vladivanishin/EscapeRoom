@@ -9,6 +9,7 @@ export enum AppRoute {
   Logout = '/logout',
   MyQuests = '/my-quests',
   Contacts = '/contacts',
+  Reservation = '/reservation',
 }
 
 export enum APIRoute {
@@ -78,7 +79,13 @@ export const currentCustomIcon = new Icon({
   iconAnchor: [20, 40],
 });
 
+
 export enum DateSlot {
   Today = 'today',
-  Tomorrow = 'tomorrow'
+  Tomorrow = 'tomorrow',
 }
+
+export const SlotName: Record<string, string> = {
+  [DateSlot.Today]: 'Сегодня',
+  [DateSlot.Tomorrow]: 'Завтра'
+} as const;
