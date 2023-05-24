@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { BookingQuest, BookingQuests, QuestInfo, Quests, UserBookings } from '../../types/data';
-import { fetchDeleteReservationAction, fetchGetQuestAction, fetchGetQuestBookingAction, fetchGetQuestInfoAction, fetchGetReservationAction } from '../api-actions';
+import { fetchGetQuestAction, fetchGetQuestBookingAction, fetchGetQuestInfoAction, fetchGetReservationAction } from '../api-actions';
 
 type DataProcess = {
   quests: Quests;
@@ -59,9 +59,6 @@ export const dataProcess = createSlice({
         state.reservationQuests = action.payload;
         state.isLoading = false;
       });
-      // .addCase(fetchDeleteReservationAction.fulfilled, (state, action) => {
-      //   state.reservationQuests = state.reservationQuests.splice(action.payload.id);
-      // });
   }
 });
 

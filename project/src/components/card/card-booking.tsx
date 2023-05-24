@@ -25,7 +25,7 @@ export default function CardBooking({ reservationQuest }: ReservationQuestCardPr
       </div>
       <div className="quest-card__content">
         <div className="quest-card__info-wrapper">
-          <Link className="quest-card__link" to={(`${AppRoute.Reservation}/${reservationQuest.id}`)}>{reservationQuest.quest.title}</Link>
+          <Link className="quest-card__link" to={(`${AppRoute.Quest}/${reservationQuest.id}`)}>{reservationQuest.quest.title}</Link>
           <span className="quest-card__info">{`${(SlotName[reservationQuest.date])}, ${reservationQuest.time}. ${reservationQuest.location.address}`}</span>
         </div>
         <ul className="tags quest-card__tags">

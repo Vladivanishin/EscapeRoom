@@ -68,7 +68,7 @@ export const DEFAULT_COORDINATE = {
 };
 
 export const defaultCustomIcon = new Icon({
-  iconUrl: '../public/img/svg/pin-default.svg',
+  iconUrl: 'project/public/img/svg/pin-default.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });

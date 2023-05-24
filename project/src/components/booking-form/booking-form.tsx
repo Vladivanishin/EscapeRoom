@@ -75,7 +75,6 @@ export default function BookingForm(): JSX.Element {
       </fieldset>
       <fieldset className="booking-form__section">
         <legend className="visually-hidden">Контактная информация</legend>
-
         <div className="custom-input login-form__input" key="name">
           <label className="custom-input__label" htmlFor="name">Ваше имя</label>
           <input {...register('name', {
@@ -126,7 +125,6 @@ export default function BookingForm(): JSX.Element {
           />
           {errors['person'] && <p>{errors['person']?.message}</p>}
         </div>
-
         <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
           <input {...register('children')}
             type="checkbox"

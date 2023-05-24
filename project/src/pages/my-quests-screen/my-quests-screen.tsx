@@ -19,7 +19,7 @@ export default function MyQuestsScreen(): JSX.Element {
       return;
     }
     dispatch(fetchGetReservationAction());
-  }, [dispatch,reservationQuests.length,reservationQuests]);
+  }, [reservationQuests]);
 
   if (authStatus === AuthorizationStatus.NoAuth || authStatus === AuthorizationStatus.Unknown) {
     return <Navigate to={AppRoute.Login} />;
