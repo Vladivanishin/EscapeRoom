@@ -17,9 +17,6 @@ export default function BookingScreen(): JSX.Element {
   const dispatch = useAppDispatch();
   const bookingQuests = useAppSelector(getBookingQuests);
   const currentQuest = useAppSelector(getQuest);
-  // const currentMapPlace = bookingQuests[0];
-  // const bookingQuest = bookingQuests[0];
-  // const questId = currentQuest?.id;
   const questId = useParams().id;
   const id = String(questId);
 
