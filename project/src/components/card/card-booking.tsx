@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { fetchDeleteReservationAction } from '../../store/api-actions';
 import { QuestResponseData } from '../../types/data';
 import { AppRoute, SlotName } from '../../const';
+import { selectQuest } from '../../store/main-process/main-process';
 
 type ReservationQuestCardProps = {
   reservationQuest: QuestResponseData;
@@ -25,7 +26,7 @@ export default function CardBooking({ reservationQuest }: ReservationQuestCardPr
       </div>
       <div className="quest-card__content">
         <div className="quest-card__info-wrapper">
-          <Link className="quest-card__link" to={(`${AppRoute.Quest}/${reservationQuest.id}`)}>{reservationQuest.quest.title}</Link>
+          <Link className="quest-card__link" to={generatePath(AppRoute.Quest, { id: `${reservationQuest.id}` })} onClick={() => dispatch(selectQuest(reservationQuest.id))}>{reservationQuest.quest.title}</Link>
           <span className="quest-card__info">{`${(SlotName[reservationQuest.date])}, ${reservationQuest.time}. ${reservationQuest.location.address}`}</span>
         </div>
         <ul className="tags quest-card__tags">

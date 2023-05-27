@@ -68,13 +68,13 @@ export const DEFAULT_COORDINATE = {
 };
 
 export const defaultCustomIcon = new Icon({
-  iconUrl: 'project/public/img/svg/pin-default.svg',
+  iconUrl: 'https://cdn-icons-png.flaticon.com/128/2776/2776067.png',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
 
 export const currentCustomIcon = new Icon({
-  iconUrl: '../public/img/svg/pin-active.svg',
+  iconUrl: 'https://cdn-icons-png.flaticon.com/128/2776/2776000.png',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });

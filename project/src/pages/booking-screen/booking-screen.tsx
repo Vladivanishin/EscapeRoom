@@ -26,7 +26,7 @@ export default function BookingScreen(): JSX.Element {
     }
     dispatch(fetchGetQuestInfoAction(id));
     dispatch(fetchGetQuestBookingAction(id));
-  }, [dispatch]);
+  }, [bookingQuests.length, dispatch, id]);
 
   if (!id || !bookingQuests.length) {
     return <LoadingScreen />;
@@ -56,14 +56,7 @@ export default function BookingScreen(): JSX.Element {
             <p className="title title--size-m title--uppercase page-content__title">{currentQuest.title}</p>
           </div>
           <div className="page-content__item">
-            <div className="booking-map">
-              <div className="map">
-                <div className="map__container">
-                  <BookingMap />
-                </div>
-              </div>
-              <p className="booking-map__address">Вы&nbsp;выбрали: {bookingQuests[0].location.address}</p>
-            </div>
+            <BookingMap />
           </div>
           <BookingForm />
         </div>

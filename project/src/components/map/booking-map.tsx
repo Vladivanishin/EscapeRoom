@@ -4,14 +4,14 @@ import 'leaflet/dist/leaflet.css';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { MAP_ZOOM, currentCustomIcon, defaultCustomIcon } from '../../const';
 import useMap from '../../hooks/useMap';
-import { getBookingQuests } from '../../store/data-process/selectors';
+import { getBookingQuests, getCurrentMapPlace } from '../../store/data-process/selectors';
 import { BookingQuest } from '../../types/data';
 import { changeCurrentPlace } from '../../store/data-process/data-process';
 
 
 export default function BookingMap(): JSX.Element {
   const questPlaces = useAppSelector(getBookingQuests);
-  let currentQuest = questPlaces[0];
+  let currentQuest = useAppSelector(getCurrentMapPlace);
 
   const dispatch = useAppDispatch();
   const mapRef = useRef(null);

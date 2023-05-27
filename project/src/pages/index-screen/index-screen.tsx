@@ -4,7 +4,7 @@ import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 // import { getAuthStatus } from '../../store/user-process/selectors';
-import { fetchCheckAuthAction, fetchGetQuestAction } from '../../store/api-actions';
+import { fetchCheckAuthAction, fetchGetQuestAction, fetchGetReservationAction } from '../../store/api-actions';
 import { AppHeader, QuestLevel, QuestType } from '../../const';
 import { getQuests } from '../../store/data-process/selectors';
 import { getCurrentQuestComplexity, getCurrentQuestType } from '../../store/main-process/selectors';
@@ -37,6 +37,7 @@ export default function IndexScreen(): JSX.Element {
     }
     dispatch(fetchCheckAuthAction());
     dispatch(fetchGetQuestAction());
+    dispatch(fetchGetReservationAction());
   }, [dispatch, quests]);
 
   // const authorizationStatus = useAppSelector(getAuthStatus);

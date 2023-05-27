@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { AppDispatch, State } from '../types/state';
-import { BookingData, BookingQuests, QuestBookingData, QuestInfo, Quests, UserAuthData, UserLoginData } from '../types/data';
+import { BookingQuests, QuestBookingData, QuestInfo, QuestResponseData, Quests, UserAuthData, UserLoginData } from '../types/data';
 import { APIRoute, AppRoute } from '../const';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { UserBookings } from '../types/data';
@@ -63,12 +63,12 @@ export const fetchGetQuestBookingAction = createAsyncThunk<
 });
 
 export const fetchPostQuestBookingAction = createAsyncThunk<
-  BookingData,
+  QuestResponseData,
   BookingPostData & { onSuccess: () => void },
   ThunkConfig
     >('fetchQuestPost', async ({ questId, questData, onSuccess }, { dispatch, extra: api }) => {
       try {
-        const { data: quest } = await api.post<BookingData>(generatePath(APIRoute.Booking, { id: questId.toString() }), questData);
+        const { data: quest } = await api.post<QuestResponseData>(generatePath(APIRoute.Booking, { id: questId.toString() }), questData);
         notify('Квест забронирован!');
         onSuccess();
         dispatch(redirectToRoute(AppRoute.MyQuests));
@@ -94,13 +94,14 @@ export const fetchGetReservationAction = createAsyncThunk<
 });
 
 export const fetchDeleteReservationAction = createAsyncThunk<
-  void,
+  string,
   string,
   ThunkConfig
 >('fetchDeleteReservation', async (reservationId, { dispatch, extra: api }) => {
   try {
     await api.delete(`${APIRoute.Reservation}/${reservationId}`);
     notify('Отель удален!');
+    return reservationId;
   } catch (error) {
     notify('Удаление бронирования не выполнено!');
     throw error;
