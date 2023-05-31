@@ -3,8 +3,7 @@ import CardsList from '../../components/cards-list/cards-list';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-// import { getAuthStatus } from '../../store/user-process/selectors';
-import { fetchCheckAuthAction, fetchGetQuestAction, fetchGetReservationAction } from '../../store/api-actions';
+import { fetchCheckAuthAction, fetchGetQuestAction} from '../../store/api-actions';
 import { AppHeader, QuestLevel, QuestType } from '../../const';
 import { getQuests } from '../../store/data-process/selectors';
 import { getCurrentQuestComplexity, getCurrentQuestType } from '../../store/main-process/selectors';
@@ -37,10 +36,7 @@ export default function IndexScreen(): JSX.Element {
     }
     dispatch(fetchCheckAuthAction());
     dispatch(fetchGetQuestAction());
-    dispatch(fetchGetReservationAction());
   }, [dispatch, quests]);
-
-  // const authorizationStatus = useAppSelector(getAuthStatus);
 
   return (
     <div className="wrapper">
@@ -93,7 +89,7 @@ export default function IndexScreen(): JSX.Element {
                   </li>
                   <li className="filter__item">
                     <input type="radio" name="type" id="detective" />
-                    <label className="filter__label" htmlFor="detective" onClick={() => dispatch(selectQuestType(QuestType.Detectiv))}>
+                    <label className="filter__label" htmlFor="detective" onClick={() => dispatch(selectQuestType(QuestType.Detective))}>
                       <svg className="filter__icon" width="40" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-detective"></use>
                       </svg><span className="filter__label-text">Детектив</span>

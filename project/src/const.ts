@@ -44,7 +44,7 @@ export enum QuestType {
   Adventures = 'adventures',
   Horror = 'horror',
   Mystic = 'mystic',
-  Detectiv = 'detectiv',
+  Detective = 'detective',
   Scifi = 'sci-fi'
 }
 
@@ -80,12 +80,28 @@ export const currentCustomIcon = new Icon({
 });
 
 
-export enum DateSlot {
-  Today = 'today',
-  Tomorrow = 'tomorrow',
-}
+// export enum DateSlot {
+//   Today = 'today',
+//   Tomorrow = 'tomorrow',
+// }
 
 export const SlotName: Record<string, string> = {
-  [DateSlot.Today]: 'Сегодня',
-  [DateSlot.Tomorrow]: 'Завтра'
+  [QuestDate.Today]: 'Сегодня',
+  [QuestDate.Tomorrow]: 'Завтра'
+} as const;
+
+export const QuestLevelRus : Record<QuestLevel, string> = {
+  [QuestLevel.Any]: 'Любой',
+  [QuestLevel.Easy]: 'Лёгкий',
+  [QuestLevel.Medium]: 'Средний',
+  [QuestLevel.Hard]: 'Сложный',
+} as const;
+
+export const QuestTypeRus: Record<QuestType, string> = {
+  [QuestType.All]: 'Все квесты',
+  [QuestType.Adventures]: 'Приключения',
+  [QuestType.Horror]: 'Ужасы',
+  [QuestType.Mystic]: 'Мистика',
+  [QuestType.Detective]: 'Детектив',
+  [QuestType.Scifi]: 'Sci-fi',
 } as const;

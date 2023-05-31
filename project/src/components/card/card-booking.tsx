@@ -2,7 +2,7 @@ import { Link, generatePath } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 import { fetchDeleteReservationAction } from '../../store/api-actions';
 import { QuestResponseData } from '../../types/data';
-import { AppRoute, SlotName } from '../../const';
+import { AppRoute, QuestLevelRus, SlotName } from '../../const';
 import { selectQuest } from '../../store/main-process/main-process';
 
 type ReservationQuestCardProps = {
@@ -38,7 +38,7 @@ export default function CardBooking({ reservationQuest }: ReservationQuestCardPr
           <li className="tags__item">
             <svg width="14" height="14" aria-hidden="true">
               <use xlinkHref="#icon-level"></use>
-            </svg>{reservationQuest.quest.level}
+            </svg>{QuestLevelRus[reservationQuest.quest.level]}
           </li>
         </ul>
         <button

@@ -3,23 +3,23 @@ import Header from '../../components/header/header';
 import { AppHeader, AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthStatus } from '../../store/user-process/selectors';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { fetchGetReservationAction } from '../../store/api-actions';
 import CardsListBooking from '../../components/cards-list/cards-list-booking';
 import Footer from '../../components/footer/footer';
-import { getReservationQuests } from '../../store/data-process/selectors';
+import { getQuests, getReservationQuests } from '../../store/data-process/selectors';
 
-export default function MyQuestsScreen(): JSX.Element {
+function MyQuestsScreen(): JSX.Element {
   const authStatus = useAppSelector(getAuthStatus);
   const dispatch = useAppDispatch();
   const reservationQuests = useAppSelector(getReservationQuests);
-
+  const quests = useAppSelector(getQuests);
   useEffect(() => {
     if(reservationQuests.length !== 0){
       return;
     }
     dispatch(fetchGetReservationAction());
-  }, [dispatch, reservationQuests]);
+  }, [dispatch, reservationQuests.length, quests]);
 
   if (authStatus !== AuthorizationStatus.Auth) {
     return <Navigate to={AppRoute.Login} />;
@@ -45,3 +45,5 @@ export default function MyQuestsScreen(): JSX.Element {
     </div>
   );
 }
+
+export default React.memo(MyQuestsScreen);

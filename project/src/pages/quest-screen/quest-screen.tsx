@@ -1,6 +1,6 @@
 import { Link, generatePath, useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
-import { AppHeader, AppRoute } from '../../const';
+import { AppHeader, AppRoute, QuestLevelRus, QuestTypeRus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getQuest } from '../../store/data-process/selectors';
 import { useEffect } from 'react';
@@ -40,7 +40,7 @@ export default function QuestScreen(): JSX.Element {
         <div className="container container--size-l">
           <div className="quest-page__content">
             <h1 className="title title--size-l title--uppercase quest-page__title">{currentQuest.title}</h1>
-            <p className="subtitle quest-page__subtitle"><span className="visually-hidden">Жанр:</span>{currentQuest.type}
+            <p className="subtitle quest-page__subtitle"><span className="visually-hidden">Жанр:</span>{QuestTypeRus[currentQuest.type]}
             </p>
             <ul className="tags tags--size-l quest-page__tags">
               <li className="tags__item">
@@ -51,7 +51,7 @@ export default function QuestScreen(): JSX.Element {
               <li className="tags__item">
                 <svg width="14" height="14" aria-hidden="true">
                   <use xlinkHref="#icon-level"></use>
-                </svg>{currentQuest.level}
+                </svg>{QuestLevelRus[currentQuest.level]}
               </li>
             </ul>
             <p className="quest-page__description">{currentQuest.description}</p>
